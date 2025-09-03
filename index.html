@@ -508,6 +508,10 @@
       background:rgba(0,255,0,.2); color:var(--text-dark);
       border-color:rgba(0,255,0,.4);
     }
+    .footer-tagline{
+      color:var(--text-medium); font-size:var(--font-size-base); 
+      font-weight:500; margin:0; opacity:0.8;
+    }
     .copyright{ 
       color:var(--text-medium); font-size:var(--font-size-sm); 
       font-weight:400; margin:0;
@@ -528,9 +532,9 @@
       .header-left{ gap:.6rem; }
       .header-right{ gap:.6rem; }
       .logo{ height:22px; }
-      .nav-links{ gap:.2rem; }
-      .nav-links a{ padding:.2rem .4rem; font-size:.6rem; min-width:60px; }
-      .lang-button{ padding:.2rem .4rem; font-size:.6rem; }
+      .nav-links{ gap:.15rem; }
+      .nav-links a{ padding:.15rem .3rem; font-size:.55rem; min-width:50px; }
+      .lang-button{ padding:.15rem .3rem; font-size:.55rem; }
       .social-icon{ width:22px; height:22px; font-size:9px; }
       .footer-social .social-icon{ width:36px; height:36px; font-size:14px; }
       
@@ -578,14 +582,6 @@
     <div class="header-content">
       <div class="header-left">
         <img src="logo.png" alt="Eco Auto" class="logo" id="logoImg">
-        <div class="social-icons">
-          <a href="https://api.whatsapp.com/send/?phone=77017707807&text&type=phone_number&app_absent=0" target="_blank" class="social-icon" title="WhatsApp">
-            <img src="whatsapp.png" alt="WhatsApp">
-          </a>
-          <a href="https://www.instagram.com/eco_auto_expo" target="_blank" class="social-icon" title="Instagram">
-            <img src="instagram.png" alt="Instagram">
-          </a>
-        </div>
       </div>
       
       <nav class="nav-links">
@@ -671,14 +667,14 @@
 
     <!-- Expo Videos -->
     <div class="expo-videos">
-      <div class="video-container">
-        <video controls class="expo-video">
-          <source src="vid1.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
               <div class="video-container">
-          <video controls class="expo-video">
+          <video controls class="expo-video" playsinline webkit-playsinline>
+            <source src="vid1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="video-container">
+          <video controls class="expo-video" playsinline webkit-playsinline>
             <source src="vid2.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -819,6 +815,7 @@
           <img src="instagram.png" alt="Instagram">
         </a>
       </div>
+      <p class="footer-tagline">Следите за нами в социальных сетях</p>
       <p class="copyright" id="copyrightText">© 2025 Eco Auto EXPO. Все права защищены.</p>
     </div>
   </footer>
@@ -864,7 +861,7 @@
     const translations = {
       ru: {
         // Navigation
-        navExpo: 'Выставка',
+        navExpo: 'Экспо',
         navService: 'Сервис',
         navTrust: 'Доверие',
         
@@ -913,12 +910,13 @@
         trustSubtitle: 'Реальные истории наших довольных клиентов по всему Казахстану',
         
         // Footer
+        footerTagline: 'Следите за нами в социальных сетях',
         copyright: '© 2025 Eco Auto EXPO. Все права защищены.'
       },
       
       kz: {
         // Navigation
-        navExpo: 'Көрме',
+        navExpo: 'Экспо',
         navService: 'Қызмет',
         navTrust: 'Сенім',
         
@@ -967,6 +965,7 @@
         trustSubtitle: 'Қазақстан бойынша қанағаттанған клиенттеріміздің нақты тарихтары',
         
         // Footer
+        footerTagline: 'Бізді әлеуметтік желілерде қадағалаңыз',
         copyright: '© 2025 Eco Auto EXPO. Барлық құқықтар қорғалған.'
       },
       
@@ -1021,6 +1020,7 @@
         trustSubtitle: 'Real stories from our satisfied customers across Kazakhstan',
         
         // Footer
+        footerTagline: 'Follow us on social media',
         copyright: '© 2025 Eco Auto EXPO. All rights reserved.'
       }
     };
@@ -1089,6 +1089,7 @@
       document.querySelector('#testimonials .subtitle').textContent = t.trustSubtitle;
       
       // Footer
+      document.querySelector('.footer-tagline').textContent = t.footerTagline;
       document.getElementById('copyrightText').textContent = t.copyright;
     }
 
