@@ -83,6 +83,12 @@
     .header-left{ justify-content:flex-start; min-width:150px; }
     .header-center{ justify-content:center; flex:1; }
     .header-right{ justify-content:flex-end; min-width:200px; }
+    
+    /* Center social icons and language switcher properly */
+    .header-right .social-icons,
+    .header-right .language-switcher{
+      display:flex; align-items:center; gap:1rem;
+    }
     .logo{ 
       height:35px; width:auto; cursor:pointer; transition:all .3s ease;
       filter:brightness(1.1);
@@ -135,26 +141,28 @@
     /* Mobile Menu Overlay */
     .mobile-menu-overlay{
       position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,.9); backdrop-filter:blur(20px); z-index:1001;
+      background:rgba(0,0,0,.95); backdrop-filter:blur(20px); z-index:1001;
       opacity:0; visibility:hidden; transition:all .3s ease;
+      display:flex; align-items:center; justify-content:center;
     }
     .mobile-menu-overlay.active{
       opacity:1; visibility:visible;
     }
     .mobile-menu-content{
-      position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
-      text-align:center; width:100%; max-width:300px;
+      text-align:center; width:100%; max-width:300px; padding:2rem;
     }
     .mobile-nav{
       display:flex; flex-direction:column; gap:2rem;
     }
     .mobile-nav-link{
       color:white; text-decoration:none; font-size:1.5rem; font-weight:600;
-      padding:1rem; border-radius:15px; transition:all .3s ease;
+      padding:1.5rem; border-radius:15px; transition:all .3s ease;
       background:rgba(255,255,255,.1); backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.2);
     }
     .mobile-nav-link:hover{
       background:rgba(0,255,136,.2); transform:scale(1.05);
+      border-color:rgba(0,255,136,.4);
     }
     
     /* Mobile Header Responsive */
@@ -175,6 +183,19 @@
       .header-left{ min-width:80px; }
       .header-center{ flex:1; justify-content:center; }
       .header-right{ min-width:140px; justify-content:flex-end; gap:.4rem; }
+      
+      /* Better mobile spacing */
+      .header-right .social-icons{ gap:.5rem; }
+      .header-right .language-switcher{ margin-right:.5rem; }
+      .mobile-menu-btn{ margin-left:.5rem; }
+      
+      /* Fix mobile menu button visibility */
+      .mobile-menu-btn{ 
+        display:flex !important; 
+        width:20px; 
+        height:16px; 
+        z-index:1002;
+      }
     }
     
     /* Language Switcher */
@@ -397,25 +418,18 @@
       width:100%; height:auto; display:block; border-radius:20px;
     }
     
-    /* Video Fallback */
-    .video-fallback{
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,.8); display:flex; flex-direction:column;
-      align-items:center; justify-content:center; color:white;
-      text-align:center; padding:2rem; z-index:10;
+    /* YouTube Video Styling */
+    .expo-video{
+      width:100%; height:300px; border-radius:20px; 
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
     }
-    .video-fallback p{
-      margin:0 0 1rem 0; font-size:1.1rem; font-weight:500;
+    
+    @media (max-width:768px){
+      .expo-video{ height:200px; }
     }
-    .video-load-btn{
-      background:var(--primary-green); color:white; border:none;
-      padding:.8rem 1.5rem; border-radius:25px; font-size:1rem;
-      font-weight:600; cursor:pointer; transition:all .3s ease;
-    }
-    .video-load-btn:hover{
-      background:var(--primary-green-dark); transform:scale(1.05);
-    }
-    .video-container.loaded .video-fallback{
+    
+    /* Video Overlay - Hidden by default for YouTube */
+    .video-overlay{
       display:none;
     }
     
@@ -774,26 +788,36 @@
 
     <!-- Expo Videos -->
     <div class="expo-videos">
-              <div class="video-container">
-          <video controls class="expo-video" preload="metadata" playsinline webkit-playsinline muted>
-            <source src="vid1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="video-fallback">
-            <p id="video1Title">Video 1: Expo Introduction</p>
-            <button class="video-load-btn" onclick="loadVideo(this)" id="video1Btn">Load Video</button>
-          </div>
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/SzHPlOeAyF4?rel=0&modestbranding=1" 
+          title="Video 1: Expo Introduction"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          class="expo-video">
+        </iframe>
+        <div class="video-overlay" id="video1Overlay">
+          <div class="video-icon">▶️</div>
+          <p id="video1Title">Video 1: Expo Introduction</p>
+          <a href="https://youtube.com/shorts/SzHPlOeAyF4?feature=share" target="_blank" class="video-load-btn" id="video1Btn">Watch on YouTube</a>
         </div>
-        <div class="video-container">
-          <video controls class="expo-video" preload="metadata" playsinline webkit-playsinline muted>
-            <source src="vid2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <div class="video-fallback">
-            <p id="video2Title">Video 2: Service Overview</p>
-            <button class="video-load-btn" onclick="loadVideo(this)" id="video2Btn">Load Video</button>
-          </div>
+      </div>
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/Uv4fQhFKRyA?rel=0&modestbranding=1" 
+          title="Video 2: Service Overview"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          class="expo-video">
+        </iframe>
+        <div class="video-overlay" id="video2Overlay">
+          <div class="video-icon">▶️</div>
+          <p id="video2Title">Video 2: Service Overview</p>
+          <a href="https://youtube.com/shorts/Uv4fQhFKRyA" target="_blank" class="video-load-btn" id="video2Btn">Watch on YouTube</a>
         </div>
+      </div>
     </div>
       
       <div class="expo-location-info">
@@ -943,15 +967,19 @@
       
       mobileMenu.classList.toggle('active');
       mobileBtn.classList.toggle('active');
-      
-      // Close menu when clicking on a link
+    }
+    
+    // Close mobile menu when clicking on links
+    document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', () => {
+          const mobileMenu = document.getElementById('mobileMenuOverlay');
+          const mobileBtn = document.querySelector('.mobile-menu-btn');
           mobileMenu.classList.remove('active');
           mobileBtn.classList.remove('active');
         });
       });
-    }
+    });
     
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
@@ -989,37 +1017,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
-    // Video loading function
-    function loadVideo(button) {
-      const container = button.closest('.video-container');
-      const video = container.querySelector('.expo-video');
-      
-      // Show loading state
-      button.textContent = 'Loading...';
-      button.disabled = true;
-      
-      // Load the video
-      video.load();
-      
-      // Try to play the video
-      video.play().then(() => {
-        // Success - hide fallback
-        container.classList.add('loaded');
-        button.textContent = 'Video Loaded!';
-        setTimeout(() => {
-          button.style.display = 'none';
-        }, 2000);
-      }).catch((error) => {
-        console.log('Video play error:', error);
-        // Show error message
-        button.textContent = 'Try Again';
-        button.disabled = false;
-        
-        // Add click to play functionality
-        video.addEventListener('click', () => {
-          video.play().catch(e => console.log('Play failed:', e));
-        });
-      });
+    // Video loading function - now just opens YouTube links
+    function loadVideo(videoSrc, button) {
+      // For YouTube embeds, this function is no longer needed
+      // Videos load automatically and play immediately
+      console.log('YouTube video loaded automatically');
     }
     
     // Video error handling and mobile optimization
