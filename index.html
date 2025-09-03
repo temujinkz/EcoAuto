@@ -121,11 +121,11 @@
     /* Mobile Menu Button */
     .mobile-menu-btn{
       display:none; flex-direction:column; justify-content:space-between;
-      width:30px; height:24px; background:none; border:none; cursor:pointer;
+      width:20px; height:16px; background:none; border:none; cursor:pointer;
       padding:0; z-index:1002;
     }
     .mobile-menu-btn span{
-      width:100%; height:3px; background:#1a1a1a; border-radius:2px;
+      width:100%; height:2px; background:#1a1a1a; border-radius:1px;
       transition:all .3s ease; transform-origin:center;
     }
     .mobile-menu-btn.active span:nth-child(1){ transform:rotate(45deg) translate(6px, 6px); }
@@ -174,7 +174,7 @@
       /* Ensure proper mobile layout */
       .header-left{ min-width:80px; }
       .header-center{ flex:1; justify-content:center; }
-      .header-right{ min-width:120px; justify-content:flex-end; }
+      .header-right{ min-width:140px; justify-content:flex-end; gap:.4rem; }
     }
     
     /* Language Switcher */
@@ -666,22 +666,14 @@
       </div>
       
       <div class="header-center">
-        <div class="language-switcher">
-          <button class="lang-button" id="langButton">RU</button>
-          <div class="lang-dropdown">
-            <button class="lang-option active" data-lang="ru">Русский</button>
-            <button class="lang-option" data-lang="kz">Қазақша</button>
-            <button class="lang-option" data-lang="en">English</button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="header-right">
         <nav class="nav-links desktop-nav">
           <a href="#expo">Auto Expo</a>
           <a href="#service">Service</a>
           <a href="#testimonials">Trust</a>
         </nav>
+      </div>
+      
+      <div class="header-right">
         <div class="social-icons">
           <a href="https://api.whatsapp.com/send/?phone=77017707807&text&type=phone_number&app_absent=0" target="_blank" class="social-icon" title="WhatsApp">
             <img src="whatsapp.png" alt="WhatsApp">
@@ -689,6 +681,14 @@
           <a href="https://www.instagram.com/eco_auto_expo" target="_blank" class="social-icon" title="Instagram">
             <img src="instagram.png" alt="Instagram">
           </a>
+        </div>
+        <div class="language-switcher">
+          <button class="lang-button" id="langButton">RU</button>
+          <div class="lang-dropdown">
+            <button class="lang-option active" data-lang="ru">Русский</button>
+            <button class="lang-option" data-lang="kz">Қазақша</button>
+            <button class="lang-option" data-lang="en">English</button>
+          </div>
         </div>
         <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
           <span></span>
@@ -702,9 +702,9 @@
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
       <div class="mobile-menu-content">
         <nav class="mobile-nav">
-          <a href="#expo" class="mobile-nav-link">Auto Expo</a>
-          <a href="#service" class="mobile-nav-link">Service</a>
-          <a href="#testimonials" class="mobile-nav-link">Trust</a>
+          <a href="#expo" class="mobile-nav-link" id="mobileNavExpo">Auto Expo</a>
+          <a href="#service" class="mobile-nav-link" id="mobileNavService">Service</a>
+          <a href="#testimonials" class="mobile-nav-link" id="mobileNavTrust">Trust</a>
         </nav>
       </div>
     </div>
@@ -774,26 +774,26 @@
 
     <!-- Expo Videos -->
     <div class="expo-videos">
-      <div class="video-container">
-        <video controls class="expo-video" preload="none">
-          <source src="vid1.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-fallback">
-          <p>Video 1: Expo Introduction</p>
-          <button class="video-load-btn" onclick="loadVideo(this)">Load Video</button>
+              <div class="video-container">
+          <video controls class="expo-video" preload="metadata" playsinline webkit-playsinline muted>
+            <source src="vid1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-fallback">
+            <p id="video1Title">Video 1: Expo Introduction</p>
+            <button class="video-load-btn" onclick="loadVideo(this)" id="video1Btn">Load Video</button>
+          </div>
         </div>
-      </div>
-      <div class="video-container">
-        <video controls class="expo-video" preload="none">
-          <source src="vid2.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-fallback">
-          <p>Video 2: Service Overview</p>
-          <button class="video-load-btn" onclick="loadVideo(this)">Load Video</button>
+        <div class="video-container">
+          <video controls class="expo-video" preload="metadata" playsinline webkit-playsinline muted>
+            <source src="vid2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-fallback">
+            <p id="video2Title">Video 2: Service Overview</p>
+            <button class="video-load-btn" onclick="loadVideo(this)" id="video2Btn">Load Video</button>
+          </div>
         </div>
-      </div>
     </div>
       
       <div class="expo-location-info">
@@ -1001,11 +1001,6 @@
       // Load the video
       video.load();
       
-      // Add mobile-friendly attributes
-      video.setAttribute('playsinline', '');
-      video.setAttribute('webkit-playsinline', '');
-      video.setAttribute('muted', '');
-      
       // Try to play the video
       video.play().then(() => {
         // Success - hide fallback
@@ -1101,7 +1096,12 @@
         
         // Footer
         footerTagline: 'Следите за нами в социальных сетях',
-        copyright: '© 2025 Eco Auto EXPO. Все права защищены.'
+        copyright: '© 2025 Eco Auto EXPO. Все права защищены.',
+        
+        // Videos
+        video1Title: 'Видео 1: О выставке',
+        video2Title: 'Видео 2: О сервисе',
+        loadVideoBtn: 'Загрузить видео'
       },
       
       kz: {
@@ -1156,7 +1156,12 @@
         
         // Footer
         footerTagline: 'Бізді әлеуметтік желілерде қадағалаңыз',
-        copyright: '© 2025 Eco Auto EXPO. Барлық құқықтар қорғалған.'
+        copyright: '© 2025 Eco Auto EXPO. Барлық құқықтар қорғалған.',
+        
+        // Videos
+        video1Title: 'Бейне 1: Көрме туралы',
+        video2Title: 'Бейне 2: Қызмет туралы',
+        loadVideoBtn: 'Бейнені жүктеу'
       },
       
       en: {
@@ -1211,7 +1216,12 @@
         
         // Footer
         footerTagline: 'Follow us on social media',
-        copyright: '© 2025 Eco Auto EXPO. All rights reserved.'
+        copyright: '© 2025 Eco Auto EXPO. All rights reserved.',
+        
+        // Videos
+        video1Title: 'Video 1: About the Expo',
+        video2Title: 'Video 2: About the Service',
+        loadVideoBtn: 'Load Video'
       }
     };
 
@@ -1227,6 +1237,11 @@
       document.querySelector('a[href="#expo"]').textContent = t.navExpo;
       document.querySelector('a[href="#service"]').textContent = t.navService;
       document.querySelector('a[href="#testimonials"]').textContent = t.navTrust;
+      
+      // Mobile Navigation
+      document.getElementById('mobileNavExpo').textContent = t.navExpo;
+      document.getElementById('mobileNavService').textContent = t.navService;
+      document.getElementById('mobileNavTrust').textContent = t.navTrust;
       
       // Tesla Section
       document.querySelector('#tesla .title').textContent = t.teslaTitle;
@@ -1281,6 +1296,12 @@
       // Footer
       document.querySelector('.footer-tagline').textContent = t.footerTagline;
       document.getElementById('copyrightText').textContent = t.copyright;
+      
+      // Videos
+      document.getElementById('video1Title').textContent = t.video1Title;
+      document.getElementById('video2Title').textContent = t.video2Title;
+      document.getElementById('video1Btn').textContent = t.loadVideoBtn;
+      document.getElementById('video2Btn').textContent = t.loadVideoBtn;
     }
 
     document.querySelectorAll('.lang-option').forEach(option => {
