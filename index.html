@@ -167,9 +167,14 @@
       .header-left, .header-center, .header-right{ gap:.6rem; }
       .logo{ height:22px; }
       .desktop-nav{ display:none; }
-      .mobile-menu-btn{ display:flex; }
+      .mobile-menu-btn{ display:flex !important; }
       .social-icon{ width:22px; height:22px; font-size:9px; }
       .footer-social .social-icon{ width:36px; height:36px; font-size:14px; }
+      
+      /* Ensure proper mobile layout */
+      .header-left{ min-width:80px; }
+      .header-center{ flex:1; justify-content:center; }
+      .header-right{ min-width:120px; justify-content:flex-end; }
     }
     
     /* Language Switcher */
@@ -390,6 +395,28 @@
     .video-container:hover{ transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,.3); }
     .expo-video{
       width:100%; height:auto; display:block; border-radius:20px;
+    }
+    
+    /* Video Fallback */
+    .video-fallback{
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,.8); display:flex; flex-direction:column;
+      align-items:center; justify-content:center; color:white;
+      text-align:center; padding:2rem; z-index:10;
+    }
+    .video-fallback p{
+      margin:0 0 1rem 0; font-size:1.1rem; font-weight:500;
+    }
+    .video-load-btn{
+      background:var(--primary-green); color:white; border:none;
+      padding:.8rem 1.5rem; border-radius:25px; font-size:1rem;
+      font-weight:600; cursor:pointer; transition:all .3s ease;
+    }
+    .video-load-btn:hover{
+      background:var(--primary-green-dark); transform:scale(1.05);
+    }
+    .video-container.loaded .video-fallback{
+      display:none;
     }
     
     @media (max-width:768px){
@@ -639,13 +666,13 @@
       </div>
       
       <div class="header-center">
-        <div class="social-icons">
-          <a href="https://api.whatsapp.com/send/?phone=77017707807&text&type=phone_number&app_absent=0" target="_blank" class="social-icon" title="WhatsApp">
-            <img src="whatsapp.png" alt="WhatsApp">
-          </a>
-          <a href="https://www.instagram.com/eco_auto_expo" target="_blank" class="social-icon" title="Instagram">
-            <img src="instagram.png" alt="Instagram">
-          </a>
+        <div class="language-switcher">
+          <button class="lang-button" id="langButton">RU</button>
+          <div class="lang-dropdown">
+            <button class="lang-option active" data-lang="ru">Русский</button>
+            <button class="lang-option" data-lang="kz">Қазақша</button>
+            <button class="lang-option" data-lang="en">English</button>
+          </div>
         </div>
       </div>
       
@@ -655,13 +682,13 @@
           <a href="#service">Service</a>
           <a href="#testimonials">Trust</a>
         </nav>
-        <div class="language-switcher">
-          <button class="lang-button" id="langButton">RU</button>
-          <div class="lang-dropdown">
-            <button class="lang-option active" data-lang="ru">Русский</button>
-            <button class="lang-option" data-lang="kz">Қазақша</button>
-            <button class="lang-option" data-lang="en">English</button>
-          </div>
+        <div class="social-icons">
+          <a href="https://api.whatsapp.com/send/?phone=77017707807&text&type=phone_number&app_absent=0" target="_blank" class="social-icon" title="WhatsApp">
+            <img src="whatsapp.png" alt="WhatsApp">
+          </a>
+          <a href="https://www.instagram.com/eco_auto_expo" target="_blank" class="social-icon" title="Instagram">
+            <img src="instagram.png" alt="Instagram">
+          </a>
         </div>
         <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
           <span></span>
@@ -747,23 +774,27 @@
 
     <!-- Expo Videos -->
     <div class="expo-videos">
-              <div class="video-container">
-          <video controls class="expo-video" playsinline webkit-playsinline preload="metadata" muted crossorigin="anonymous" poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5hY2hhdGVuIFZpZGVvPC90ZXh0Pjwvc3ZnPg==">
-            <source src="vid1.mp4" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
-            <source src="vid1.mp4" type="video/mp4">
-            <source src="vid1.mp4" type="video/webm">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div class="video-container">
-          <video controls class="expo-video" playsinline webkit-playsinline preload="metadata" muted crossorigin="anonymous" poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5hY2hhdGVuIFZpZGVvPC90ZXh0Pjwvc3ZnPg==">
-            <source src="vid2.mp4" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
-            <source src="vid2.mp4" type="video/mp4">
-            <source src="vid2.mp4" type="video/webm">
-            Your browser does not support the video tag.
-          </video>
+      <div class="video-container">
+        <video controls class="expo-video" preload="none">
+          <source src="vid1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-fallback">
+          <p>Video 1: Expo Introduction</p>
+          <button class="video-load-btn" onclick="loadVideo(this)">Load Video</button>
         </div>
       </div>
+      <div class="video-container">
+        <video controls class="expo-video" preload="none">
+          <source src="vid2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-fallback">
+          <p>Video 2: Service Overview</p>
+          <button class="video-load-btn" onclick="loadVideo(this)">Load Video</button>
+        </div>
+      </div>
+    </div>
       
       <div class="expo-location-info">
         <h3 class="location-title">Visit Our Location</h3>
@@ -958,14 +989,54 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
+    // Video loading function
+    function loadVideo(button) {
+      const container = button.closest('.video-container');
+      const video = container.querySelector('.expo-video');
+      
+      // Show loading state
+      button.textContent = 'Loading...';
+      button.disabled = true;
+      
+      // Load the video
+      video.load();
+      
+      // Add mobile-friendly attributes
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('muted', '');
+      
+      // Try to play the video
+      video.play().then(() => {
+        // Success - hide fallback
+        container.classList.add('loaded');
+        button.textContent = 'Video Loaded!';
+        setTimeout(() => {
+          button.style.display = 'none';
+        }, 2000);
+      }).catch((error) => {
+        console.log('Video play error:', error);
+        // Show error message
+        button.textContent = 'Try Again';
+        button.disabled = false;
+        
+        // Add click to play functionality
+        video.addEventListener('click', () => {
+          video.play().catch(e => console.log('Play failed:', e));
+        });
+      });
+    }
+    
     // Video error handling and mobile optimization
     document.querySelectorAll('.expo-video').forEach(video => {
       // Handle video loading errors
       video.addEventListener('error', function(e) {
         console.log('Video error:', e);
-        // Show fallback message
         const container = this.parentElement;
-        container.innerHTML = '<div style="background:#f0f0f0; padding:2rem; border-radius:10px; text-align:center;"><p>Video konnte nicht geladen werden</p><p>Video could not be loaded</p></div>';
+        const fallback = container.querySelector('.video-fallback');
+        if (fallback) {
+          fallback.style.display = 'flex';
+        }
       });
       
       // Mobile video optimization
@@ -973,11 +1044,6 @@
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', '');
         video.setAttribute('muted', '');
-        
-        // Try to load video on user interaction
-        video.addEventListener('touchstart', function() {
-          this.load();
-        }, { once: true });
       }
     });
 
