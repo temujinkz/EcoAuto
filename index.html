@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Eco Auto</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/sk-greenland" rel="stylesheet">
   <style>
@@ -157,6 +162,13 @@
     body.mobile-menu-open .section,
     body.mobile-menu-open .footer{
       filter:blur(15px);
+      transition:filter 0.3s ease;
+    }
+    
+    /* Ensure blur is completely removed when menu closes */
+    body:not(.mobile-menu-open) .section,
+    body:not(.mobile-menu-open) .footer{
+      filter:none !important;
       transition:filter 0.3s ease;
     }
     .mobile-menu-content{
@@ -1046,27 +1058,53 @@
       // Close when clicking navigation links
       document.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', () => {
-          const mobileMenu = document.getElementById('mobileMenuOverlay');
-          const mobileBtn = document.querySelector('.mobile-menu-btn');
-          const body = document.body;
-          mobileMenu.classList.remove('active');
-          mobileBtn.classList.remove('active');
-          body.classList.remove('mobile-menu-open');
+          closeMobileMenu();
         });
       });
       
       // Close when clicking outside the menu
       document.getElementById('mobileMenuOverlay').addEventListener('click', (e) => {
         if (e.target.id === 'mobileMenuOverlay') {
-          const mobileMenu = document.getElementById('mobileMenuOverlay');
-          const mobileBtn = document.querySelector('.mobile-menu-btn');
-          const body = document.body;
-          mobileMenu.classList.remove('active');
-          mobileBtn.classList.remove('active');
-          body.classList.remove('mobile-menu-open');
+          closeMobileMenu();
         }
       });
     });
+    
+    // Function to close mobile menu and remove all blur effects
+    function closeMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenuOverlay');
+      const mobileBtn = document.querySelector('.mobile-menu-btn');
+      const body = document.body;
+      
+      // Remove active classes
+      mobileMenu.classList.remove('active');
+      mobileBtn.classList.remove('active');
+      body.classList.remove('mobile-menu-open');
+      
+      // Force remove any remaining blur effects immediately
+      document.querySelectorAll('.section, .footer').forEach(element => {
+        element.style.filter = 'none';
+        element.style.transition = 'filter 0.3s ease';
+      });
+      
+      // Double-check removal after a short delay
+      setTimeout(() => {
+        body.classList.remove('mobile-menu-open');
+        document.querySelectorAll('.section, .footer').forEach(element => {
+          element.style.filter = 'none';
+          element.style.transition = 'filter 0.3s ease';
+        });
+      }, 50);
+      
+      // Final cleanup after transition
+      setTimeout(() => {
+        body.classList.remove('mobile-menu-open');
+        document.querySelectorAll('.section, .footer').forEach(element => {
+          element.style.filter = 'none';
+          element.style.transition = 'filter 0.3s ease';
+        });
+      }, 300);
+    }
     
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
