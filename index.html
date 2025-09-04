@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Eco Auto Service - Tesla Raffle & Auto Expo</title>
+  <title>Eco Auto</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/sk-greenland" rel="stylesheet">
   <style>
@@ -161,12 +161,35 @@
     }
     .mobile-menu-content{
       text-align:center; width:100%; max-width:300px; padding:2rem;
-      background:rgba(255,255,255,.95); backdrop-filter:blur(20px);
+      background:rgba(255,255,255,.98); backdrop-filter:blur(20px);
       border-radius:25px; border:2px solid rgba(255,255,255,.3);
       box-shadow:0 20px 60px rgba(0,0,0,.4);
+      position:relative;
     }
+    
+    /* Close button */
+    .mobile-menu-close{
+      position:absolute; top:1rem; right:1rem; width:30px; height:30px;
+      background:none; border:none; cursor:pointer; padding:0;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      z-index:1003;
+    }
+    .mobile-menu-close span{
+      width:20px; height:3px; background:#1a1a1a; border-radius:2px;
+      transition:all .3s ease; position:absolute;
+    }
+    .mobile-menu-close span:first-child{
+      transform:rotate(45deg);
+    }
+    .mobile-menu-close span:last-child{
+      transform:rotate(-45deg);
+    }
+    .mobile-menu-close:hover span{
+      background:var(--primary-green);
+    }
+    
     .mobile-nav{
-      display:flex; flex-direction:column; gap:1.5rem;
+      display:flex; flex-direction:column; gap:1.5rem; margin-top:1rem;
     }
     .mobile-nav-link{
       color:#1a1a1a; text-decoration:none; font-size:1.8rem; font-weight:700;
@@ -174,6 +197,7 @@
       background:rgba(0,0,0,.05); backdrop-filter:blur(10px);
       border:2px solid rgba(0,0,0,.1); letter-spacing:0.5px;
       text-shadow:none;
+      display:block; width:100%; text-align:center;
     }
     .mobile-nav-link:hover{
       background:rgba(0,255,136,.15); transform:scale(1.02);
@@ -216,9 +240,16 @@
       /* Mobile menu improvements */
       .mobile-menu-content{
         max-width:280px; padding:1.8rem;
+        margin:0 auto;
       }
       .mobile-nav-link{
         font-size:1.7rem; padding:1.3rem 1.8rem;
+        font-weight:800;
+      }
+      
+      /* Ensure mobile menu is perfectly centered */
+      .mobile-menu-overlay{
+        align-items:center; justify-content:center;
       }
       
       /* Better section spacing for mobile */
@@ -750,6 +781,10 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
       <div class="mobile-menu-content">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+        </button>
         <nav class="mobile-nav">
           <a href="#expo" class="mobile-nav-link" id="mobileNavExpo">Auto Expo</a>
           <a href="#service" class="mobile-nav-link" id="mobileNavService">Service</a>
@@ -1006,8 +1041,9 @@
       body.classList.toggle('mobile-menu-open');
     }
     
-    // Close mobile menu when clicking on links
+    // Close mobile menu when clicking on links or outside
     document.addEventListener('DOMContentLoaded', function() {
+      // Close when clicking navigation links
       document.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', () => {
           const mobileMenu = document.getElementById('mobileMenuOverlay');
@@ -1017,6 +1053,18 @@
           mobileBtn.classList.remove('active');
           body.classList.remove('mobile-menu-open');
         });
+      });
+      
+      // Close when clicking outside the menu
+      document.getElementById('mobileMenuOverlay').addEventListener('click', (e) => {
+        if (e.target.id === 'mobileMenuOverlay') {
+          const mobileMenu = document.getElementById('mobileMenuOverlay');
+          const mobileBtn = document.querySelector('.mobile-menu-btn');
+          const body = document.body;
+          mobileMenu.classList.remove('active');
+          mobileBtn.classList.remove('active');
+          body.classList.remove('mobile-menu-open');
+        }
       });
     });
     
